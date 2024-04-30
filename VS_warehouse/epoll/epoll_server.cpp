@@ -60,7 +60,7 @@ int main(int argc, int argv[]) {
                 //服务端用list保存用户连接
                 clients_list.push_back(clientfd);
                 printf("Add new clientfd = %d to epoll\n", clientfd);
-                printf("Now there are %d clients in the chat room",(int)clients_list.size());
+                printf("Now there are %d clients in the chat room\n",(int)clients_list.size());
 
                 //服务端发送欢迎消息
                 printf("Welcome!\n");
