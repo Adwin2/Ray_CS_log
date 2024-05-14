@@ -19,9 +19,18 @@
 #define MAX_TRIES 3
 
 int main(int argc, char argv[]) {
+    //准备SOCKET  创建 + 设置 SOCKET 设置接收机的IP地址
     int sockfd;
     struct sockaddr_in dest_addr;
+    //打包
+    
+    //发包
+    
+    //收包
 
+    //解包
+
+    //输出统计信息
 
 
 
