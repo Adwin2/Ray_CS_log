@@ -695,7 +695,7 @@ int main(void)
 
 进程间通信（IPC，InterProcess Communication）是指在不同的进程之间传播或交换信息。
 
-IPC的方式有管道（包括无名管道和命名管道）、消息队列、信号量、共享内存、Socket、Streams等。其中**Socket**和**Streams**支持不同主机上的两个进程间通信。
+IPC的方式有管道（包括无名管道和命名管道）、消息队列、信号、信号量、共享内存、Socket（套接字）、Streams等。其中**Socket**和**Streams**支持不同主机上的两个进程间通信。
 
 #### 9.1 管道
 
