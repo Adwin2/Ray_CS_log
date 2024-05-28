@@ -1,46 +1,47 @@
-////deque ÈÝÆ÷  sort ÅÅÐòËã·¨ ! ! !
-//
-//#include<iostream>
-//using namespace std;
-//#include <deque>
-//
-//#include <algorithm>//±ê×¼Ëã·¨Í·ÎÄ¼þ
-//
-//void printDeque(const deque<int>& d)//ÒÔÒýÓÃµÄ·½Ê½´«ÈëÊý¾Ý
-//{
-//	for (deque<int>::const_iterator it = d.begin(); it != d.end(); it++) //dequeÈÝÆ÷µÄµü´úÆ÷ÓÃconst_iterator
-//	{
-//		cout << *it << " ";
-//	}
-//	cout << endl;
-//}
-//
-////deque ÈÝÆ÷ÅÅÐò
-//void test01() {
-//	deque<int>d;
-//	d.push_back(10);
-//	d.push_back(20);
-//	d.push_back(30);
-//	d.push_front(100);
-//
-//
-//	printDeque(d);
-//
-//	/*ÅÅÐò  Ä¬ÈÏ ´ÓÐ¡µ½´ó ÉýÐò
-//	  ½µÐò¡ª¡ªsort(d.rbegin(),d.rend());¼´¿É
-//	  ¶ÔÓÚÖ§³ÖËæ»ú·ÃÎÊµÄµü´úÆ÷µÄÈÝÆ÷¶¼ÊÊÓÃ
-//	  »áÓÐÊ±¼ä³¬ÏÞµÄÇé¿ö£¬²»½¨Òé¾ºÈüÊ¹ÓÃ
-//	*/
-//	sort(d.begin(), d.end());
-//	cout << "ÅÅÐòºó£º" << endl;
-//	printDeque(d);
-//	
-//}
-//
-//int main() {
-//
-//	test01();
-//
-//	return 0;
-//
-//}
+//deque ï¿½ï¿½ï¿½ï¿½  sort ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ ! ! !
+
+#include<iostream>
+using namespace std;
+#include <deque>
+#include <functional>
+
+#include <algorithm>//ï¿½ï¿½×¼ï¿½ã·¨Í·ï¿½Ä¼ï¿½
+
+void printDeque(const deque<int>& d)//ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ·ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+{
+	for (deque<int>::const_iterator it = d.begin(); it != d.end(); it++) //dequeï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½const_iterator
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
+}
+
+//deque ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+void test01() {
+	deque<int>d;
+	d.push_back(10);
+	d.push_back(20);
+	d.push_back(30);
+	d.push_front(100);
+
+
+	printDeque(d);
+
+	/*ï¿½ï¿½ï¿½ï¿½  Ä¬ï¿½ï¿½ ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	  ï¿½ï¿½ï¿½ò¡ª¡ï¿½sort(d.rbegin(),d.rend());ï¿½ï¿½ï¿½ï¿½
+	  ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊµÄµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	  ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä³¬ï¿½Þµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¾ºï¿½ï¿½Ê¹ï¿½ï¿½
+	*/
+	sort(d.begin(), d.end(), std::greater<int>()); //æ ‡å‡†åº“ä¸­ greater<_TP>() / lesser<_TP>()
+	cout << "ï¿½ï¿½ï¿½ï¿½ï¿½" << endl;
+	printDeque(d);
+	
+}
+
+int main() {
+
+	test01();
+
+	return 0;
+
+}
