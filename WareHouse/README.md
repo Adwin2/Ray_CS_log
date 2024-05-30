@@ -78,3 +78,7 @@ C++在使用中练习，硬啃效率不高
 5.28 
 
 跟进[C++教程视频](https://www.bilibili.com/video/BV1oD4y1h7S3?p=82&spm_id_from=pageDriver&vd_source=e0d89b071b177d90b62777f66eae423c) 更新了其中相关C++17特性的内容 [ Cpp_prac ]
+
+5.30
+
+跟进教程内容的代码实践 [Cpp_prac]
