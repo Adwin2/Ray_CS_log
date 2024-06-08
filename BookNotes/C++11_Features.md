@@ -196,9 +196,9 @@
 
     ```c++
     //实例化声明与定义
-    extern template _daclaration;  // 实例化声明  早于首个定义或调用
-    template declaration  //实例化定义
-    //-- 实现
+    extern template _daclaration;  // 实例化声明  早于实例化调用 必须有显式的实例化定义
+    template declaration;  //实例化定义
+    //declaration是一个类或函数声明，且模板参数已替换为实参 -- 实现
     extern template class Blob<string>;  //声明
     template int compare(const int&, const int&); //定义
     ```
@@ -335,7 +335,7 @@
     - 2.不限定作用域的枚举类型 ： 枚举成员不可重复定义
 
     ```C++
-    enum color {red, yellow, green};   //不限定作用于的枚举类型  省略掉关键字
+    enum color {red, yellow, green};   //不限定作用域的枚举类型  省略掉关键字
     //未命名的、不限定作用域的枚举类型  未命名：只能在定义enum时定义它的对象
     enum {floatPrec = 6, doublePrec = 10, double_doublePrec = 10}/*声明列表可放此处(声明 和 定义分开)*/;
     //注意 作用域前缀（使用$的$\显式访问枚举成员）
