@@ -75,16 +75,26 @@ C++在使用中练习，硬啃效率不高
 
 ------
 
-5.28 
+### 5.28 
 
 跟进[C++教程视频](https://www.bilibili.com/video/BV1oD4y1h7S3?p=82&spm_id_from=pageDriver&vd_source=e0d89b071b177d90b62777f66eae423c) 更新了其中相关C++17特性的内容 [ Cpp_prac ]
 
-5.30
+### 5.30
 
 跟进教程内容的代码实践 [Cpp_prac]
 
-6.5
+### 6.5
 
 cherno教程代码实现提交完成 （重点在C++17特性方面居多）
 
-整理完成《**C++ Primier**》的C++11特性部分[BookNotes/]
+整理完成《**C++ Primier**》的C++11特性部分`[BookNotes/]`
+
+### 6.12
+
+今天在`Win11`上的VMware 中打开RHEL9的镜像 ，一直连接不到网络 结果发现`NetworkManager`关了
+
+`systemctl status NetworkManager`查看状态  enabled 开机自启
+
+`systemctl start NetworkManager`解决问题 笑死 查了半天:sweat_smile:    最后可以`ps -e | grep Net`查看是否运行中
+
+拓展：`nmcli device status` 查看网卡连接状态 
