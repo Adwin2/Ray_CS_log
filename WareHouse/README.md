@@ -98,3 +98,7 @@ cherno教程代码实现提交完成 （重点在C++17特性方面居多）
 `systemctl start NetworkManager`解决问题 笑死 查了半天:sweat_smile:    最后可以`ps -e | grep Net`查看是否运行中
 
 拓展：`nmcli device status` 查看网卡连接状态 
+
+### 7.22
+
+《代码随想录：跟着Carl学算法》+ leetcode 开冲

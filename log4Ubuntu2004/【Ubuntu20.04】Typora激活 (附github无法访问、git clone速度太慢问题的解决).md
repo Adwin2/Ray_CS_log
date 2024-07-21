@@ -32,7 +32,7 @@
 
 终端输入
 
-```
+```shell
 sudo vim /etc/hosts
 ```
 
@@ -83,7 +83,7 @@ sudo vim /etc/hosts
 
 输入
 
-```
+```shell
 sudo apt install nscd
 ```
 
@@ -93,7 +93,7 @@ sudo apt install nscd
 
 输入
 
-```
+```shell
 sudo /etc/init.d/nscd restart
 ```
 
@@ -121,7 +121,7 @@ sudo /etc/init.d/nscd restart
 
 即终端输入
 
-```
+```shell
 git config --global http.postBuffer 104857600
 ```
 
@@ -137,7 +137,7 @@ git config --global http.postBuffer 104857600
 
 终端输入
 
-```
+```shell
 sudo dpkg -i  .deb文件路径
 ```
 
@@ -151,7 +151,7 @@ sudo dpkg -i  .deb文件路径
 
 终端输入
 
-```
+```shell
 git clone https://github.com/hazukieq/Yporaject.git --depth=1
 ```
 
@@ -159,7 +159,7 @@ git clone https://github.com/hazukieq/Yporaject.git --depth=1
 
 ### （1）运行官方脚本安装
 
-```
+```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
@@ -169,7 +169,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ### （2）接着按照这个内容指示终端输入
 
-```
+```shell
 source "$HOME/.cargo/env"
 ```
 
@@ -177,7 +177,7 @@ source "$HOME/.cargo/env"
 
 终端输入
 
-```
+```shell
 cargo --version
 ```
 
@@ -187,7 +187,7 @@ cargo --version
 
 ## 3.编译Yporaject项目
 
-```
+```shell
 # 进入 Yporaject 项目
 cd Yporaject
 # 运行编译命令
@@ -205,7 +205,7 @@ ls target/debug
 
 ## 4.复制二进制程序到安装目录下
 
-```
+```shell
 # 复制二进制程序到Typora目录下
 sudo cp target/debug/node_inject /usr/share/typora
 
@@ -230,26 +230,26 @@ sudo ./node_inject
 
 回到Yporaject目录，终端输入
 
-```
+```shell
 cd Yporaject/
 
 ```
 
 打开license-gen 文件夹
 
-```
+```shell
 cd license-gen
 ```
 
 编译
 
-```
+```shell
 cargo build
 ```
 
 运行
 
-```
+```shell
 cargo run
 ```
 
