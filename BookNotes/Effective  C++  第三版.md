@@ -416,38 +416,537 @@
 
 6. 将文件间的编译依存关系降至最低  --31
 
+   1）用声明的依赖性替换定义的依存性
+
+   2）尽量使用对象引用或指针 ——符合3）
+
+   3）尽量使用类型声明式而不是定义式
+
+   4）为声明式和定义式提供不同的头文件——接口和其实现分离：接口类和句柄类
+
+   >增加一层间接访问（开销），当这些开销过于重大以至于类之间的耦合度在相形之下不成为关键时，就以具象类（concrete class）替换句柄类和接口类。
+
 ## 六、继承与面向对象设计
 
 1. 确定你的public继承塑模出is-a关系
+
+   >is-a关系：适用于基类的每一件事情也适用于继承类（可以认为每一个派生类都是一个基类对象）
+
 2. 避免遮掩继承而来的名称
+
+   1）using关键字 --将所有版本包含在内
+
+   2）转发函数 --只想要单一版本
+
+   ```C++
+   class Base {
+   public:
+       virtual void mf();
+       virtual void mf(double);
+   };
+   
+   class Derived : public Base {
+   public:
+       virtual void mf() {
+           Base::mf();
+       }
+   };
+   ```
+
 3. 区分接口继承和实现继承
+
+   1）public继承下，派生类总是继承基类的接口。
+
+   2）声明一个纯虚函数，为了让派生类只继承该函数接口。
+
+   3）声明简朴的非纯虚函数的目的，是让派生类继承该函数的接口和缺省实现。
+
+   4）声明非虚函数的目的，为了令派生类继承函数接口以及一份强制性实现。
+
 4. 考虑虚函数以外的其他选择
-5. 绝不重新定义继承而来的非虚函数
+
+   1）非虚接口设计手法 ( NVI ) 使用一个非虚函数作为wrapper，将虚函数隐藏在封装之下
+
+   ```C++
+   class GameCharacter{
+   public:
+       int HP()const{
+           //前置工作
+   		int retVal = HPCalculate();
+           //后置工作 ：确保得以在一个虚函数被调用之前设定好适当场景，并在调用结束之后清理场景。
+           return retVal;
+       }
+   private:
+       //可以是private也可以是protected
+       virtual int HPCalculate() const{
+           //缺省算法
+       }
+   };
+   ```
+
+   2）函数指针
+
+   3）std::function  :C++11中引入的函数包装器，可以提供闭函数指针更强的灵活度。
+
+   4)古典的Srategy 并非直接利用函数指针（或包装器）调用函数，而是内含一个指针指向来自继承体系的对象
+
+5. 绝不重新定义继承而来的非虚函数*
+
+   - 非虚函数执行的是静态绑定（前期绑定），由对象类型本身（静态类型）决定要调用的函数；
+   - 虚函数执行的是动态绑定（后期绑定），决定因素不在对象本身，而在于指向该对象的指针当初的声明类型（即动态类型）
+
 6. 绝不重新定义继承而来的缺省参数值
+
+   ）虚函数是动态绑定而来，意思是调用一个虚函数时，究竟调用哪一份函数实现代码，取决于发出调用的那个对象的动态类型。但与之不同的是，**缺省参数值却是静态绑定**，意思是你可能会在“调用一个定义于派生类的虚函数”的同时，却使用基类为它所指定的缺省参数值。
+
+   ```c++
+   class Shape {
+   public:
+       enum class ShapeColor { Red, Green, Blue };
+       virtual void Draw(ShapeColor color = ShapeColor::Red) const = 0;
+       ...
+   };
+   
+   class Rectangle : public Shape {
+   public:
+       virtual void Draw(ShapeColor color = ShapeColor::Green) const;
+   };
+   
+   class Circle : public Shape {
+   public:
+       virtual void Draw(ShapeColor color) const;
+   };
+   
+   //-----调用时
+   
+   Shape* pr = new Rectangle;
+   Shape* pc = new Circle;
+   
+   pr->Draw(Shape::ShapeColor::Green);    // 调用 Rectangle::Draw(Shape::Green)
+   pr->Draw();                            // 调用 Rectangle::Draw(Shape::Red)
+   pc->Draw();                            // 调用 Rectangle::Draw(Shape::Red)
+   
+   /*-----这就迫使我们在指定虚函数时使用相同的缺省参数值，为了避免不必要的麻烦和错误，可以考虑条款 35 中列出的虚函数的替代设计，例如NVI手法：*/
+   class Shape {
+   public:
+       enum class ShapeColor { Red, Green, Blue };
+       void Draw(ShapeColor color = ShapeColor::Red) const { DoDraw(color); }
+       ...
+   private:
+       virtual void DoDraw(ShapeColor color) const = 0;
+   };
+   
+   class Rectangle : public Shape {
+   public:
+       ...
+   private:
+       virtual void DoDraw(ShapeColor color) const;
+   };
+   ```
+
 7. 通过复合塑模出 has-a 或“根据某物实现出”
+
+   )复合（composition），指的是某种类型的对象内含同种类型的对象。通常意味着has-a或“根据某物实现出”的关系。前者发生于应用域，后者发生于实现域。
+
+   ```c++
+   //-----has-a
+   class Address { ... };
+   class PhoneNumber { ... };
+   
+   class Person {
+   public:
+       ...
+   private:
+       std::string name;           // 合成成分物（composed object）
+       Address address;            // 同上
+       PhoneNumber voiceNumber;    // 同上
+       PhoneNumber faxNumber;      // 同上
+   };
+   //-----根据某物实现出
+   // 将 list 应用于 Set
+   template<class T>
+   class Set {
+   public:
+       bool member(const T& item) const;
+       void insert(const T& item);
+       void remove(const T& item);
+       std::size_t size() const;
+   
+   private:
+       std::list<T> rep;           // 用来表述 Set 的数据
+   };
+   ```
+
 8. 明智而审慎地使用private继承
+
+   1）类之间private继承，则编译器不会自动将一个派生类对象转换为一个基类对象。
+
+   2）由private继承来的所有成员，在派生类中都会变成pribate属性，换句话说，private继承只继承实现，不继承接口。
+
+   >private继承的意义是“根据某物实现出”，如果你读过条款 38，就会发现private继承和复合具有相同的意义，事实上也确实如此，绝大部分private继承的使用场合都可以被“public继承+复合”完美解决。
+   >
+   >> 后者比前者好的原因：
+   >>
+   >> 1）private继承无法阻止派生类重新定义虚函数，后者可以
+   >>
+   >> 2）public继承+复合时的类可以仅提供声明，并将具体定义移至实现文件中，从而降低编译依存性。
+   >
+   >适用于private继承的一个极端情况：空白基类最优化（EBO）
+   >
+   >```c++
+   >class Empty {};
+   >class HoldsAnInt {
+   >private:
+   >    int x;
+   >    Empty e;//一个没有非静态成员变量、虚函数的类，看似不需要任何存储空间，但实际上 C++ 规定凡是独立对象都必须有非零大小，因此此处sizeof(HoldsAnInt)必然大于sizeof(int)，通常会多出一字节大小，但有时考虑到内存对齐之类的要求，可能会多出更多的空间。
+   >};
+   >//-----private继承可以避免产生额外空间：
+   >class HoldsAnInt : private Empty {
+   >private:
+   >    int x;
+   >};
+   >```
+
 9. 明智而审慎地使用多重继承
+
+   ）可用于结合public继承和private继承，public继承用于提供接口，private继承用于提供实现;谨慎菱形继承
 
 ## 七、模板与泛型编程
 
 1. 了解隐式接口和编译期多态
-2. 了解typename的双重含义
+
+   ）对于模板参数而言，接口是隐式的，依赖于有效表达式：
+
+   ```C++
+   template<typename T>
+   void DoProcessing(T& w) {
+       if (w.size() > 10 && w != someNastyWidget) {
+       ...
+   ```
+
+   以上代码中，T类型的隐式接口要求：
+
+   1. 提供一个名为`size`的成员函数，该函数的返回值可与`int`（10 的类型）执行`operator>`，或经过隐式转换后可执行`operator>`。
+
+   2. 必须支持一个`operator!=`函数，接受`T`类型和`someNastyWidget`的类型，或其隐式转换后得到的类型。（未考虑重载的情况下）
+
+      >隐式接口和显示接口一样，都在编译期完成检查，不符合要求则代码无法通过编译。
+
+2. 了解typename的双重含义 ：声明式class与typename没什么不同，在内部则拥有更多的含义
+
+   >模板内出现的名称：依于某个模板参数：从属名称；而且呈嵌套状：嵌套从属名称；不依赖：非从属名称。
+
+   ```C++
+   template<typename C>
+   void Print2nd(const C& container) {
+       if (container.size() >= 2) {
+           C::const_iterator iter(container.begin());
+           ++iter;
+           int value = *iter;
+           std::cout << value;
+       }
+   }
+   //编译报错
+   ```
+
+   原因）`C::const_iterator`是一个指向某类型的**嵌套从属类型名称（nested dependent type name）**，而嵌套从属名称可能会导致解析困难，因为在编译器知道`C`是什么之前，没有任何办法知道`C::const_iterator`是否为一个类型，这就导致出现了歧义状态，而 C++ 默认假设**嵌套从属名称**不是类型名称。
+
+   解决）显式指明嵌套从属类型名称的方法就是将`typename`关键字作为其**前缀词**。
+
+   ```C++
+   typename C::const_iterator iter(container.begin());
+   //注意typename不可以出现在基类列表内的嵌套从属类型名称之前，也不可以在成员初始化列表中作为基类的修饰符。
+   /*名称复杂时记得使用using或typedef来简化：*/
+   using value_type = typename std::iterator_traits<IterT>::value_type;
+   ```
+
 3. 学习处理模板化基类内的名称
+
+   问题）模板编程中 模板类的继承较特殊：模板类实例化之前拒绝承认模板类中的实现函数
+
+   解决）“C++进入模板基类观察”
+
+    	1）基类函数调用动作之前加上this->；
+
+   ​	 2）使用using声明式 `using 模板类::Func(param)`;
+
+   ​	 3）明确指定来自于模板类：可能会使“虚函数绑定行为”失效。
+
 4. 将与参数无关的代码抽离模板
+
+   ）模板编程可能造成代码膨胀，我们需要分析模板中重复使用的部分，将其抽离出模板，减轻模板具现化带来的代码量。
+
+   ​	1）因非类型模板参数而造成的代码膨胀，往往可以消除，	做法是以函数参数或类成员变量替换模板参数。
+
+   ​	2）因类型模板参数而造成的代码膨胀，往往可以降低，做	法是让带有完全相同二进制表述的具现类型共享实现代码
+
+   ```C++
+   template<typename T>
+   class SquareMatrixBase {
+   protected:
+       void Invert(std::size_t matrixSize);
+       ...
+   private:
+       std::array<T, n * n> data;
+   };
+   
+   template<typename T, std::size_t n>
+   class SquareMatrix : private SquareMatrixBase<T> {  // private 继承实现，见条款 39
+       using SquareMatrixBase<T>::Invert;              // 避免掩盖基类函数，见条款 33
+   
+   public:
+       void Invert() { this->Invert(n); }              // 调用模板基类函数，见条款 43
+       ...
+   };
+   ```
+
+   ） `Invert`并不是我们唯一要使用的矩阵操作函数，而且每次都往基类传递矩阵尺寸显得太过繁琐，我们可以考虑将数据放在派生类中，在基类中储存指针和矩阵尺寸。修改代码如下：
+
+   ```C++
+   template<typename T>
+   class SquareMatrixBase {
+   protected:
+       SquareMatrixBase(std::size_t n, T* pMem)
+           : size(n), pData(pMem) {}
+       void SetDataPtr(T* ptr) { pData = ptr; }
+       ...
+   private:
+       std::size_t size;
+       T* pData;
+   };
+   
+   template<typename T, std::size_t n>
+   class SquareMatrix : private SquareMatrixBase<T> {
+   public:
+       SquareMatrix() : SquareMatrixBase<T>(n, data.data()) {}
+       ...
+   private:
+       std::array<T, n * n> data;
+   };
+   ```
+
+   ） 同样地，上面的代码也使用到了牺牲封装性的`protected`，可能会导致资源管理上的混乱和复杂，考虑到这些，也许一点点模板代码的重复并非不可接受。
+
 5. 运用成员函数模板接受所有的兼容类型
-6. 需要类型转换时请为模板定义非成员函数
-7. 请用traits classes表现类型信息
+
+   ）C++ 视模板类的不同具现体为完全不同的的类型，但在泛型编程中，我们可能需要一个模板类的不同具现体能够相互类型转换。
+
+   ）考虑设计一个智能指针类，而智能指针需要支持不同类型指针之间的隐式转换（如果可以的话），以及普通指针到智能指针的显式转换。很显然，我们需要的是模板拷贝构造函数：
+
+   ```c++
+   c++
+   template<typename T>
+   class SmartPtr {
+   public:
+       template<typename U>
+       SmartPtr(const SmartPtr<U>& other)
+           : heldPtr(other.get()) { ... }
+   
+       template<typename U>
+       explicit SmartPtr(U* p)
+           : heldPtr(p) { ... }
+   
+       T* get() const { return heldPtr; }
+       ...
+   private:
+       T* heldPtr;
+   };
+   ```
+
+   ）使用`get`获取原始指针，并将在原始指针之间进行类型转换本身提供了一种保障，如果原始指针之间不能隐式转换，那么其对应的智能指针之间的隐式转换会造成编译错误。
+
+   ）模板构造函数并不会阻止编译器暗自生成默认的构造函数，所以如果你想要控制拷贝构造的方方面面，你必须同时声明泛化拷贝构造函数和普通拷贝构造函数，相同规则也适用于赋值运算符：
+
+   ```C++
+   c++
+   template<typename T>
+   class shared_ptr {
+   public:
+       shared_ptr(shared_ptr const& r);                // 拷贝构造函数
+   
+       template<typename Y>
+       shared_ptr(shared_ptr<Y> const& r);             // 泛化拷贝构造函数
+   
+       shared_ptr& operator=(shared_ptr const& r);     // 拷贝赋值运算符
+   
+       template<typename Y>
+       shared_ptr& operator=(shared_ptr<Y> const& r);  // 泛化拷贝赋值运算符
+   
+       ...
+   };
+   ```
+
+6. 需要类型转换时请为模板定义非成员函数******
+
+7. 请用traits classes表现类型信息******
+
+   >traits classes 可以使我们在编译期就能获取某些类型信息，它被广泛运用于 C++ 标准库中。traits 并不是 C++ 关键字或一个预先定义好的构件：它们是一种技术，也是 C++ 程序员所共同遵守的协议，并要求对用户自定义类型和内置类型表现得一样好。
+
 8. 认识模板元编程
+
+   > 模板元编程（Template metaprogramming，TMP）是编写基于模板的 C++ 程序并执行于编译期的过程。这可以帮助我们在编译期时发现一些原本要在运行期时才能察觉的错误，以及得到较小的可执行文件、较短的运行期、较少的内存需求。当然，副作用就是会使编译时间变长。
+
+   模板元编程已被证明是“图灵完备”的，并且以“函数式语言”的形式发挥作用，因此在模板元编程中没有真正意义上的循环，所有循环效果只能藉由递归实现，而递归在模板元编程中是由 **“递归模板具现化（recursive template instantiation）”** 实现的。
+
+   常用于引入模板元编程的例子是在编译期计算阶乘：
+
+   ```C++
+   c++
+   template<unsigned n>            // Factorial<n> = n * Factorial<n-1>
+   struct Factorial {
+       enum { value = n * Factorial<n-1>::value };
+   };
+   
+   template<>
+   struct Factorial<0> {           // 处理特殊情况：Factorial<0> = 1
+       enum { value = 1 };
+   };
+   
+   std::cout << Factorial<5>::value;
+   ```
+
+   模板元编程很酷，但对其进行调试可能是灾难性的，因此在实际应用中并不常见。我们可能会在下面几种情形中见到它的出场：
+
+   1. 确保量度单位正确。
+   2. 优化矩阵计算。
+   3. 可以生成客户定制之设计模式（custom design pattern）实现品。
 
 ## 八、定制new和delete
 
-1. 了解new-handler的行为
-2. 了解new和delete的合理替换时机
-3. 编写new和delete时需固守常规
+1. **了解new-handler的行为**
+
+2. **了解new和delete的合理替换时机**
+
+3. **编写new和delete时需固守常规**
+
 4. 为了placement new 也要写placement delete
+
+   lacement new 最初的含义指的是“接受一个指针指向对象该被构造之处”的`operator new`版本，它在标准库中的用途广泛，其中之一是负责在 vector 的未使用空间上创建对象，它的声明如下：
+
+   ```C++
+   c++
+   void* operator new(std::size_t, void* pMemory) noexcept;
+   ```
+
+   我们此处要讨论的是广义上的 placement new，即带有附加参数的`operator new`，例如下面这种：
+
+   ```C++
+   c++
+   void* operator new(std::size_t, std::ostream& logStream);
+   
+   auto pw = new (std::cerr) Widget;
+   ```
+
+   当我们在使用 new 表达式创建对象时，共有两个函数被调用：一个是用以分配内存的`operator new`，一个是对象的构造函数。假设第一个函数调用成功，而第二个函数却抛出异常，那么会由 C++ runtime 调用`operator delete`，归还已经分配好的内存。
+
+   这一切的前提是 C++ runtime 能够找到`operator new`对应的`operator delete`，如果我们使用的是自定义的 placement new，而没有为其准备对应的 placement delete 的话，就无法避免发生内存泄漏。因此，合格的代码应该是这样的：
+
+   ```C++
+   c++
+   class Widget {
+   public:
+       static void* operator new(std::size_t size, std::ostream& logStream);   // placement new
+   
+       static void operator delete(void* pMemory);                             // delete 时调用的正常 operator delete
+       static void operator delete(void* pMemory, std::ostream& logStream);    // placement delete
+   };
+   ```
+
+   另一个要注意的问题是，由于成员函数的名称会掩盖其外部作用域中的相同名称（见条款 33），所以提供 placement new 会导致无法使用正常版本的`operator new`：
+
+   ```C++
+   c++
+   class Base {
+   public:
+   	static void* operator new(std::size_t size, std::ostream& logStream);
+   	...
+   };
+   
+   auto pb = new Base;             // 无法通过编译！
+   auto pb = new (std::cerr) Base; // 正确
+   ```
+
+   同样道理，派生类中的`operator new`会掩盖全局版本和继承而得的`operator new`版本：
+
+   ```C++
+   c++
+   class Derived : public Base {
+   public:
+   	static void* operator new(std::size_t size);
+   	...
+   };
+   
+   auto pd = new (std::clog) Derived;  // 无法通过编译！
+   auto pd = new Derived;              // 正确
+   ```
+
+   为了避免名称遮掩问题，需要确保以下形式的`operator new`对于定制类型仍然可用，除非你的意图就是阻止客户使用它们：
+
+   ```C++
+   c++
+   void* operator(std::size_t) throw(std::bad_alloc);           // normal new
+   void* operator(std::size_t, void*) noexcept;                 // placement new
+   void* operator(std::size_t, const std::nothrow_t&) noexcept; // nothrow new
+   ```
+
+   一个最简单的实现方式是，准备一个基类，内含所有正常形式的 new 和 delete：
+
+   ```C++
+   c++
+   class StadardNewDeleteForms{
+   public:
+       // normal new/delete
+       static void* operator new(std::size_t size){
+           return ::operator new(size);
+       }
+       static void operator delete(void* pMemory) noexcept {
+           ::operator delete(pMemory);
+       }
+   
+       // placement new/delete
+       static void* operator new(std::size_t size, void* ptr) {
+           return ::operator new(size, ptr);
+       }
+       static void operator delete(void* pMemory, void* ptr) noexcept {
+           ::operator delete(pMemory, ptr);
+       }
+   
+       // nothrow new/delete
+       static void* operator new(std::size_t size, const std::nothrow_t& nt) {
+           return ::operator new(size,nt);
+       }
+       static void operator delete(void* pMemory,const std::nothrow_t&) noexcept {
+           ::operator delete(pMemory);
+       }
+   };
+   ```
+
+   凡是想以自定义形式扩充标准形式的客户，可以利用继承和`using`声明式（见条款 33）取得标准形式：
+
+   ```C++
+   c++
+   class Widget: public StandardNewDeleteForms{
+   public:
+       using StandardNewDeleteForms::operator new;
+       using StandardNewDeleteForms::operator delete;
+   
+       static void* operator new(std::size_t size, std::ostream& logStream);
+       static void operator detele(std::size_t size, std::ostream& logStream) noexcept;
+       ...
+   };
+   ```
 
 ## 九、杂项 
 
 1. 不要轻忽编译器的警告
+
+   1. 严肃对待编译器发出的警告信息。努力在你的编译器的最高（最严苛）警告级别下争取“无任何警告”的荣誉。
+   2. 不要过度依赖编译器的警告能力，因为不同的编译器对待事情的态度不同。一旦移植到另一个编译器上，你原本依赖的警告信息可能会消失。
+
 2. 让自己熟悉包括TR1在内的标准程序库
+
+   > 如今 TR1 草案已完全融入 C++ 标准当中，没有再过多了解 TR1 标准库的必要。
+
 3. 让自己熟悉Boost
+
+   > Boost 是若干个程序库的集合，并且当中的许多库已经被 C++ 吸纳为标准库的一部分。不过在现在的 Modern C++ 时代，是否该在项目中使用 Boost 仍然有一定的争议，一些 Boost 组件并无法做到像 C++ 标准库那样高性能，零开销抽象，但毫无疑问的是，Boost 的参考价值是无法忽视的，你可以在 Boost 中找到许多非常值得学习和借鉴的实现。
