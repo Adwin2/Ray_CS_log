@@ -102,3 +102,9 @@ cherno教程代码实现提交完成 （重点在C++17特性方面居多）
 ### 7.22
 
 《代码随想录：跟着Carl学算法》+ leetcode 开冲
+
+##9.5
+
+用平板折腾了userLand上的Ubuntu  
+gcc g++ gdb git locale(设置utf-8编码：这个地方bash无颜色显示了 
+平板也成功汇入git工作流😁
