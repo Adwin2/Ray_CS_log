@@ -1,0 +1,5 @@
+本人经历：
+在po解Typora时会升级Protoc相关版本，导致后续使用qingzhou_simulation时编译报错，
+系protoc版本太新问题，不知道如何回退导致我又又重装了一次系统问题才得以解决。
+写在这里提醒一下。
+注：qingzhou_simulation是一个ros导航方面的例程包，其中编译(catkin_make)时需要使用protobuf，这个东西在Github上也有仓库。如果遇到上述问题的，可以尝试查阅重装。。。
