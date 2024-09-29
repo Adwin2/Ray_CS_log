@@ -124,3 +124,12 @@ imap <F2>  <C-x><C-o>
 nmap <S-E> :NERDTree<CR>
 nmap <F3>  :NERDTree<CR>
 imap <S-Q> <ESC>
+"inoremap . .<C-g>u<C-x><C-o>
+
+inoremap { {<CR><CR>}<UP><Tab><Tab>
+inoremap ( ()<Left>
+inoremap < <><Left>
+inoremap [ []<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+
