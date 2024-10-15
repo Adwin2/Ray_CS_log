@@ -1,36 +1,51 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-class Myinteger {
-	friend ostream& operator<<(ostream& cout, Myinteger myint);
-public:
-	Myinteger() //¹¹Ôìº¯Êý
-	{
-		m_Num = 0;
-	}
-	//Ç°ÖÃµÝÔöÔËËã·ûÖØÔØ
-	Myinteger& operator++() //Èô·µ»ØÖµ£¬Ôò²»»áÖØ¸´´æ´¢ÔÚÏàÍ¬ÄÚ´æ£»ÐèÒª·µ»ØÒýÓÃ
-	{
-		m_Num++;
-		return *this;//½âÒýÓÃ ·µ»Ø×ÔÉí
-	}
-	//ºóÖÃ¡­¡­
-	
-private:
-	int m_Num;
+class Point{
+	public:
+		Point(int a = 0, int b = 0):x(a), y(b){}
+		Point& operator++(){
+			x ++;
+			return *this;
+		}
+		Point& operator--(){
+			x --;
+			return *this;
+		} //åŽç½®è¿ç®—ç¬¦è¿”å›žå¼•ç”¨
+		
+		Point operator++(int) {
+			Point old = *this;
+			++(*this);
+			return old;
+		}
+		Point operator--(int) {
+			Point old = *this;
+			--(*this);
+			return old;
+		}
+		//å‰ç½®é‡è½½ ä¸ºäº†å’ŒåŽç½®åŒºåˆ†å¼€ æ²¡æœ‰å®žé™…ä½œç”¨
+
+		int getX(){
+			return x;
+		}
+		int getY(){
+			return y;
+		}
+	private:
+		int x;
+		int y;
 };
-//ÖØÔØ<<
-ostream& operator<<(ostream& cout,Myinteger myint) //**À¨ºÅÄÚ (ostream& cout£¨¿É±ä£© ,Myinteger myint)***ÖØµã£¡£¡
-{
-	cout << myint.m_Num << endl;
-	return cout;  //×¢Òâ·µ»ØÖµ
+
+ostream& operator<<(ostream& out, Point p) {
+	out<<p.getX() <<"\t"<<p.getY()<<endl;
+	return out;
 }
 
-
-
-
-void test01() {
-	Myinteger myint;
-	cout << myint;
-
+int main(){
+	Point p;
+	p++;
+	cout<<p<<endl;
+	p--;
+	cout<<p<<endl;
+	return 0;
 }
