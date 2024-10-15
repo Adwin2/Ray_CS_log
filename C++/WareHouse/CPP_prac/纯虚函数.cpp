@@ -6,6 +6,7 @@ using namespace std;
 class shape{
 	public:
 		virtual double area() = 0;	//基类虚函数没有定义/纯虚  会导致文件链接的时候出错 type like:'undefined reference to `typeinfo for <基类>'
+									//区别于非纯虚函数void name(){}，其需要在继承时声明virtual： virtual public <类名>
 };
 
 class Square : public shape {
