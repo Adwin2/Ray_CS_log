@@ -108,3 +108,7 @@ cherno教程代码实现提交完成 （重点在C++17特性方面居多）
 用平板折腾了userLand上的Ubuntu  
 gcc g++ gdb git locale(设置utf-8编码：这个地方bash无颜色显示了 
 平板也成功汇入git工作流😁
+
+##10.21 
+
+> 持续断更中 tech.ula/.../~ 根目录的Goplace/ & Warehouse/ 保持更新
