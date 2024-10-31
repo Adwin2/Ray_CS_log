@@ -1,0 +1,17 @@
+ctrl + w + w "switch between nerdtree and vim same as "h"left "l"right
+u "rewind
+Ctrl + r "give up rewinding
+Ctrl + q "select column
+d "delete
+w "top of 小节
+\r 光标移动到行首 写入覆盖本行
+%c 显示 Unicode值
+df -Th 查看文件系统
+使用#ifdef  #endif 调试结构
+
+```shell
+update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
+> （路径+优先级（begin with 1
+update-alternatives --list python （列出待选版本
+```
+
