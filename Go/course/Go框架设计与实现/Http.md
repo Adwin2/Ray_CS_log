@@ -14,9 +14,15 @@ HTTP1 HTTP2 QUIC
 中间件层设计
 - 配合Handler实现一个完整的请求处理生命周期（调用链）； 拥有预处理逻辑与后处理逻辑； 可注册多中间件； 对上层模块用户逻辑模块易用
 路由设计
-- 框架路由 为URL匹配对应handler
+- 框架路由 为URL匹配对应handler  前缀匹配树
 协议层
 - 抽象出合适的接口  在连接上读写数据
 传输层
 BIO block io ； NIO先判断readable再唤醒goroutine （netpoll）
+
+
+## 性能优化
+**针对网络库** 
+存下全部Header  减少系统调用次数  能够复用内存  能够多次读
+Netpoll：存所有Header 拷贝完整Body
 
