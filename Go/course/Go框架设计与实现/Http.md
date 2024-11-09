@@ -22,7 +22,30 @@ BIO block io ； NIO先判断readable再唤醒goroutine （netpoll）
 
 
 ## 性能优化
-**针对网络库** 
+**针对网络库**
+*Buffer设计*
 存下全部Header  减少系统调用次数  能够复用内存  能够多次读
 Netpoll：存所有Header 拷贝完整Body
+ 
+- go net 适用于流式 小包
+- netpoll 中大包友好 时延低
 
+**针对协议**
+*Header解析*
+找到Header Line 边界 ` \r\n `出现两次 即结束 
+> 先找到\n 在看前一个是不是\r 
+SIMD 单指令集多数据 sonic加速编解码
+核心字段快速解析 使用byte slice存储 高频使用存储为额外的成员变量
+
+*热点资源池化*
+RequestContext池 
+syncpool
+
+## 企业实践
+追求性能
+追求易用(API快速上手)，减少误用
+打通内部生态
+文档建设、用户群建设
+
+内部http框架：Hertz
+1万+服务 3千万+QPS
