@@ -66,3 +66,14 @@ client/SDK交互，可通过插件转译支持弱SQL
 基于内存，支持AOF/RDB持久化
 常用redis-cli/多语言SDK交互
 
+
+## RDBMS
+
+SQL引擎 Parser Optimizer Executor
+
+解析器 词法分析 语法分析 语义分析（检查是否合理）
+优化器 ）基于规则的优化 RBO ） scan优化 唯一索引 普通索引 全表扫描
+）基于代价的优化 CBO cost-- 时间_资源_
+
+Executor 火山模型 --> 向量化Batch利用CPU的simd机制  /  编译执行 LLVM动态编译执行技术
+存储引擎 - InnoDB
