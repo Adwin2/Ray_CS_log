@@ -76,4 +76,25 @@ SQL引擎 Parser Optimizer Executor
 ）基于代价的优化 CBO cost-- 时间_资源_
 
 Executor 火山模型 --> 向量化Batch利用CPU的simd机制  /  编译执行 LLVM动态编译执行技术
-存储引擎 - InnoDB
+
+存储引擎 
+
+- InnoDB
+- Buffer Pool
+- Page
+- B+ Tree 二分查找的扩展 从根到叶通过双向链表链接 二分法定位槽－遍历槽
+
+事务引擎
+
+- Atomicity 与 Undo Log
+Undo Log: 逻辑日志,记录增量变化。可以进行数据回滚
+
+- Isolation与锁
+
+读 sharelock 写 exclusivelock
+MVCC:读写互不堵塞，降低死锁概率，实现一致性读
+
+- Durability 与 Redo Log
+
+对数据修改永久保存
+REDOLOG 物理日志 记录页面变化 事务提交前日志写盘
