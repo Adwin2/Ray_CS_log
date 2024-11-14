@@ -98,3 +98,45 @@ MVCC:读写互不堵塞，降低死锁概率，实现一致性读
 
 对数据修改永久保存
 REDOLOG 物理日志 记录页面变化 事务提交前日志写盘
+
+
+实践案例 
+大流量 -- sharding
+业务层数据水平拆分，代理层分片路由
+线性扩展写入性能和容量
+
+流量激增
+-- 扩容
+扩容db物理节点数量
+影子表压测
+
+-- 代理连接池 
+
+稳定性/可靠性 -- 3Az高可用
+proxy 读写分流 /限流 + 监控报警
+
+-- HA管理
+监控热切换宕机
+
+## 对象存储 TOS
+
+冷热数据分级存储
+
+拓-----HDFS
+弱posix系统语义
+目录/文件  append写   无法直接HTTP访问
+拓-------
+
+对象存储云端 bucket-object   （object：key data metadata）
+http协议访问  适于静态、immutable 结构化和mutable不适合
+
+基本逻辑：申请bucket->业务逻辑开发->上线测试
+RESTFUL接口  
+Multiupload接口  initupload（id）multiupload  complete
+Listprefix接口 分页列举
+
+# 工程实践
+
+接入层 ））接入解析并处理接口请求） 存储引擎层））存储对象内容） 元信息层））存储对象元信息）
+容量型-片源 转码 ；qps型-抽帧
+
