@@ -140,3 +140,14 @@ Listprefix接口 分页列举
 接入层 ））接入解析并处理接口请求） 存储引擎层））存储对象内容） 元信息层））存储对象元信息）
 容量型-片源 转码 ；qps型-抽帧
 
+可扩展性解法 -- Partition
+存储 计算 压力 均匀分布 -分布式 （分布式+ 单机存储）
+不同数据映射到不同Partition分区
+Partition Logic: Hash/Range
+扩容新建partition 新增数据写入映射导向新partition
+持久度解法 -- Replication
+复制多副本 多机房多region
+-- EC存储 冗余编码
+-- 温冷转换
+高可用 -- 集群拆分 （降低爆炸半径）
+-- 镜像灾备
