@@ -67,8 +67,8 @@ Plugin 'VundleVim/Vundle.vim'
 "  " 安装其它插件
 Plugin 'preservim/nerdtree'
 Plugin 'fatih/vim-go'
-
-
+Plugin 'nsf/gocode'
+Plugin 'cdelledonne/vim-cmake'
 
 
 "   " All of your Plugins must be added before the following line
@@ -119,17 +119,21 @@ let NERDTreeAutoCenter=1 "光标移动超过一定距离时，是否自动将焦
 "let g:go_def_mode='gopls' gopls没有包内函数补全 换用gocode
 "let g:go_info_mode='gopls'
 
-imap <S-W> <C-x><C-o>
+nmap <F1> :belowright terminal<CR>
+imap <C-S-W> <C-x><C-o>
 imap <F2>  <C-x><C-o>
-nmap <S-E> :NERDTree<CR>
+nmap <C-S-E> :NERDTree<CR>
 nmap <F3>  :NERDTree<CR>
-imap <S-Q> <ESC>
-"inoremap . .<C-g>u<C-x><C-o>
+imap <C-S-Q> <ESC>
 
-inoremap { {<CR><CR>}<UP><Tab><Tab>
+"inoremap { {<CR><CR>}<UP><Tab><Tab>
+inoremap { {<CR>}<ESC>O
 inoremap ( ()<Left>
+inoremap （ （）<Left>
+inoremap “ “”<Left>
 inoremap < <><Left>
 inoremap [ []<Left>
 inoremap " ""<Left>
 inoremap ' ''<Left>
+inoremap /* /*<CR>*/<ESC>O<Tab>
 
