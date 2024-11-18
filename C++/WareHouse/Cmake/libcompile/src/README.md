@@ -1,0 +1,2 @@
+- link_directories: 添加非标准的共享库搜索路径
+- target_link_libraries: 把目标文件与库文件进行链接

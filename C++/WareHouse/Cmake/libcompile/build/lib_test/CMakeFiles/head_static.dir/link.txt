@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libhead.a CMakeFiles/head_static.dir/head.cpp.o
+/usr/bin/ranlib ../../lib/libhead.a

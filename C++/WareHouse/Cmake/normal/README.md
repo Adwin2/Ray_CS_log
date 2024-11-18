@@ -1,0 +1,3 @@
+对于会生成多个elf文件的情况  在src/下创建CMakelists文件精细配置
+
+对于单个elf文件 把src/下的cmakelist内容转换至主目录下CMtxt中即可

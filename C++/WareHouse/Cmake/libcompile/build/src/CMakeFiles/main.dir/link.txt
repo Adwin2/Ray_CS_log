@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/main.dir/main.cpp.o -o ../../bin/main   -L/home/userland/Ray_CS_log/C++/WareHouse/Cmake/libcompile/lib  -Wl,-rpath,/home/userland/Ray_CS_log/C++/WareHouse/Cmake/libcompile/lib -lhead 
