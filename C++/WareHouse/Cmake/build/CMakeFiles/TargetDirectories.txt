@@ -1,3 +1,0 @@
-/home/userland/Ray_CS_log/C++/WareHouse/Cmake/build/CMakeFiles/demo.dir
-/home/userland/Ray_CS_log/C++/WareHouse/Cmake/build/CMakeFiles/edit_cache.dir
-/home/userland/Ray_CS_log/C++/WareHouse/Cmake/build/CMakeFiles/rebuild_cache.dir
