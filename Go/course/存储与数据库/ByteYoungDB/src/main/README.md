@@ -7,3 +7,6 @@ Transection: Commit/Rollback事务支持
 
 
 main.cpp 创建一个命令行交互界面
+
+使用的SQL解析库hyrise/sql-parser只进行了SQL语句的词法分析和语法分析 ，合法性检验（语义分析）需要自己实现
+> 对源库封装成include/和lib/，增加语义分析功能
