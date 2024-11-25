@@ -1,8 +1,9 @@
-模型结构 （火山模型）
-parser : 补充语法解析器（sql-parser仅限于语义解析 此部分需要自己补充）
-executor ： 依次row执行 
+Parser: 解析用户输入的SQL语句，并进行合法性校验
+MetaData: 管理用户创建的表、列表元信息
+Optimizer: 根据SQL语法树生成计划树
+Executor: 根据计划树进行查询执行（此处采用火山模型）
+Storage: 内存态数据结构设计
+Transection: Commit/Rollback事务支持
 
-parser 
-hyrise/sql-parser  located in /usr/include/hyrise
-CMakeLists link_libraries 
 
+main.cpp 创建一个命令行交互界面
