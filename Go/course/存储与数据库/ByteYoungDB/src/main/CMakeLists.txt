@@ -1,4 +1,4 @@
-set(SRC_LIST
+set(BYTE_YOUNG_SRC
 	main.cpp
 	parser.cpp
 	optimizer.cpp
@@ -6,8 +6,9 @@ set(SRC_LIST
 	metadata.cpp
 	trx.cpp
 	storage.cpp
+	util.cpp
 	)
 
-include_directories(../../sqlparsercpp/include)
+add_executable(bydb ${BYTE_YOUNG_SRC})
 
-
+target_link_libraries(bydb ${CMAKE_SOURCE_DIR}/sqlparsercpp/lib/libsqlparser.so)
