@@ -22,12 +22,13 @@ FULLY COPY from github.com/thuyy/ByteYoungDB
 - trx (transaction) 使用 undo stack 实现commit和Rollback 版本提交和回溯
 
 
-<h1>操作方法</h1>
+<h2>操作方法</h2>
+
 ```shell
-mkdir build
-cd build 
-cmake ..
-make
+ mkdir build
+ cd build 
+ cmake ..
+ make
 ```
 可运行文件生成于./build/bin
 - sql-parser-test [SQL语句]
