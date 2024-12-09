@@ -1,1 +1,0 @@
-g++ -g -std=c++11 -rdynamic CMakeFiles/sql-parser-test.dir/test.cpp.o -o ../../bin/sql-parser-test   -L/home/userland/Ray_CS_log/Go/course/存储与数据库/ByteYoungDB/sqlparsercpp/lib  -Wl,-rpath,/home/userland/Ray_CS_log/Go/course/存储与数据库/ByteYoungDB/sqlparsercpp/lib -lsqlparser 
