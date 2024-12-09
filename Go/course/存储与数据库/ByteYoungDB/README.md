@@ -20,3 +20,17 @@ FULLY COPY from github.com/thuyy/ByteYoungDB
 - util 一些工具 ：重命名、类型转换（`_type`转换为string类型方便使用）、debug输出
 
 - trx (transaction) 使用 undo stack 实现commit和Rollback 版本提交和回溯
+
+
+<h1>操作方法</h1>
+```shell
+mkdir build
+cd build 
+cmake ..
+make
+```
+可运行文件生成于./build/bin
+- sql-parser-test [SQL语句]
+验证正误
+- bydb 
+进入数据库命令行界面
