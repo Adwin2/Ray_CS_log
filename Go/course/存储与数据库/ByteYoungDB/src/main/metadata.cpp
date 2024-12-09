@@ -13,7 +13,7 @@ Table::Table(char* schema, char* name,std::vector<ColumnDefinition*>* columns) {
   schema_ = strdup(schema);
   name_ = strdup(name);
   for (auto col_old : *columns) {
-    std::vector<ConstraintType>* column_constraints = new std::vector<ConstraintType>();
+    std::unordered_set<ConstraintType>* column_constraints = new std::unordered_set<ConstraintType>();
     *column_constraints = *col_old->column_constraints;
     ColumnDefinition* col = new ColumnDefinition(strdup(col_old->name), col_old->type, column_constraints);
     col->nullable = col_old->nullable;
