@@ -99,7 +99,7 @@ set ruler
 set wildmenu
 set wildmode=longest:list,full
 
-set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\ }
 
 set autowriteall
 
@@ -110,7 +110,7 @@ set langmenu=zh_CN.UTF-8
 set helplang=cn
 
 "============== 配置 NerdTree ============
-let NERDTreeWinPos='right'  "NERDTree打开后在窗口的位置：左='left',
+let NERDTreeWinPos='left'  "NERDTree打开后在窗口的位置：左='left',
 "右='right'
 let NERDTreeShowLineNumbers=1   "NERDTree显示行号
 let NERDTreeWinSize=25   "NERDTree列表的宽度
@@ -136,4 +136,3 @@ inoremap [ []<Left>
 inoremap " ""<Left>
 inoremap ' ''<Left>
 inoremap /* /*<CR>*/<ESC>O<Tab>
-
