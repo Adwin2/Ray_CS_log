@@ -24,7 +24,7 @@ public:
     // 移动构造函数  必须有 noexcept 关键字 这样编译器才会将其视为安全的，否则会回退到复制构造函数 程序可能崩溃
     String(String&& other) noexcept 
     {
-        // 浅拷贝 rewire the ptr    复制数据、重新分配内存属于深拷贝
+        // 浅拷贝 rewite the ptr    复制数据、重新分配内存属于深拷贝
         printf("Moved\n");
         m_size = other.m_size;
         m_data = other.m_data; // 改变指针指向 (move)
