@@ -1,3 +1,5 @@
+# 设计模式(Golang)
+
 //source: github.com/qingconglaixueit/go_design_pattern
 
 ## 创造者模式
