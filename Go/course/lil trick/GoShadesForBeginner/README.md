@@ -276,7 +276,7 @@
     }
     ```
 
-再看一个例子
+    再看一个例子：
 
     ```go
     package main
@@ -310,31 +310,32 @@
         time.Sleep(3 * time.Second)     //goroutines print: one, two, three
     }
     ```
+
 13. defer函数调用参数
 defer后不论函数还是方法，输入参数的值在defer声明时已计算好
 要特别注意的是，defer后面是方法调用语句时，方法的接受者是在**defer语句执行时**传递的，而不是defer声明时传入的。
 
     ```go
-    type field struct{
-        num int
-    }
-    func(t *field) print(n int){
-        fmt.println(t.num, n)
-    }
-    func main() {    
-        var i int = 1
-        defer fmt.Println("result2 =>",func() int { return i * 2 }())
-        i++
+        type field struct{
+            num int
+        }
+        func(t *field) print(n int){
+            fmt.println(t.num, n)
+        }
+        func main() {    
+            var i int = 1
+            defer fmt.Println("result2 =>",func() int { return i * 2 }())
+            i++
 
-        v := field{1}
-        defer v.print(func() int { return i * 2 }())
-        v = field{2}
-        i++
+            v := field{1}
+            defer v.print(func() int { return i * 2 }())
+            v = field{2}
+            i++
 
-        // prints: 
-        // 2 4
-        // result => 2 (not ok if you expected 4)
-    }
+            // prints: 
+            // 2 4
+            // result => 2 (not ok if you expected 4)
+        }
     ```
 
 14. defer在当前函数结束后调用，与变量的作用范围无关
@@ -355,7 +356,9 @@ defer后不论函数还是方法，输入参数的值在defer声明时已计算�
         fmt.Println("[not an int] value =>",data)         //prints: [not an int] value => great (as expected)
     }
     ```
+
 16. 阻塞的goroutine与资源泄露
+
     ```go
     func First(query string, replicas ...Search) Result {  
         c := make(chan Result)
@@ -390,36 +393,70 @@ defer后不论函数还是方法，输入参数的值在defer声明时已计算�
 对于可寻址(addressable)的值变量(而不是指针)，可以直接调用接受对象为指针类型的方法。
 换句话说，就不需要为可寻址值变量定义以接受对象为值类型的方法了。
 
-但是，并不是所有变量都是可寻址的，像Map的元素就是不可寻址的。
+    但是，并不是所有变量都是可寻址的，像Map的元素就是不可寻址的。
 
-```go
-package main
+    ```go
+    package main
+    import "fmt"
+    type data struct {  
+        name string
+    }
+    func (p *data) print() {  
+        fmt.Println("name:",p.name)
+    }
 
-import "fmt"
+    type printer interface {  
+        print()
+    }
 
-type data struct {  
-    name string
-}
+    func main() {  
+        d1 := data{"one"}
+        d1.print() //ok
 
-func (p *data) print() {  
-    fmt.Println("name:",p.name)
-}
+        // var in printer = data{"two"} //error
+        var in printer = &data{"two"}
+        in.print()
 
-type printer interface {  
-    print()
-}
+        m := map[string]data {"x":data{"three"}}
+        //m["x"].print() //error
+        d2 = m["x"]
+        d2.print()      // ok
+    }
+    ```
 
-func main() {  
-    d1 := data{"one"}
-    d1.print() //ok
+2. 原理同上一条
+   如果map的值类型是结构体类型，那么不能更新从map中取出的结构体的字段值。
+   但是对于结构体类型的slice却是可以的。
 
-    // var in printer = data{"two"} //error
-    var in printer = &data{"two"}
-    in.print()
+    ```go
+    package main
 
-    m := map[string]data {"x":data{"three"}}
-    //m["x"].print() //error
-    d2 = m["x"]
-    d2.print()      // ok
-}
-```
+    type data struct {  
+        name string
+    }
+
+    func main() {  
+        m := map[string]data {"x":{"one"}}
+        //m["x"].name = "two" //error
+        r := m["x"]
+        r.name = "two"
+        m["x"] = r
+        fmt.Println(s)       // prints: map[x:{two}]
+
+        mp := map[string]*data {"x": {"one"}}
+        mp["x"].name = "two" // ok
+
+        s := []data{{"one"}}
+        s[0].name = "two"    // ok
+        fmt.Println(s)       // prints: [{two}]
+    }
+    ```
+
+3. nil值的interface{}不等于nil interface ： (Type, Value)
+4. 变量内存的分配
+    在C++中使用new操作符总是在heap上分配变量。Go编译器使用new()和make()分配内存的位置到底是stack还是heap，
+    取决于变量的大小(size)和逃逸分析的结果(result of “escape analysis”)。这意味着Go语言中，返回本地变量的引用也不会有问题。
+
+    要想知道变量内存分配的位置，可以在go build、go run命令指定-gcflags -m即可：
+    go run -gcflags -m app.go
+5. runtime.Gosched()

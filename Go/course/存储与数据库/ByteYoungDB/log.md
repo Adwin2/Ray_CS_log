@@ -13,3 +13,5 @@ src/metadata.cpp 行16 `vector --> unordered_set`
 
 －－－－－－－－－－
 - [ ]模板元编程部分 代码
+
+输出重定向 ： > >> 2> &>  2>&1

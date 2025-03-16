@@ -24,6 +24,7 @@
 
 只导入一个包并只运行init函数 
 导入包但没用到 默认编译会报错 －－》匿名导入 
+
 ```go
 import _ "image/png"
 ```
@@ -45,11 +46,10 @@ import _ "image/png"
 不同包依赖管理方案
 
 1) govendor 
-根目录的vendor/ --$ GOROOT/src --$ GOPATH/src 
-2）go modules
+	根目录的vendor/ --$ GOROOT/src --$ GOPATH/src 
+	2）go modules  即 go mod 
 	有域名：$GOPATH/pkg/mod -- 联网去当前网址找
 	无：只会到$GOROOT里找
 > 项目列表(./)里有vendor/目录时 无论域名都只会在该目录下找
 > 通常vendor 目录是通过` go mod vendor `命令生成的，这个命令会将*项目依赖*全部打包到你的项目目录下的 verdor/ 文件夹中。
-
 

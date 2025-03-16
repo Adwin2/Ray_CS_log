@@ -1,0 +1,7 @@
+[  9%] Linking CXX executable ../../bin/bydb
+/bin/ld: 当搜索用于 /home/raymond/桌面/Ray_CS_log/Go/course/存储与数据库/ByteYoungDB/sqlparsercpp/lib/libsqlparser.so 时跳过不兼容的 -lsqlparser
+/bin/ld: 找不到 -lsqlparser
+collect2: error: ld returned 1 exit status
+make[2]: *** [src/main/CMakeFiles/bydb.dir/build.make:190：bin/bydb] 错误 1
+make[1]: *** [CMakeFiles/Makefile2:115：src/main/CMakeFiles/bydb.dir/all] 错误 2
+make: *** [Makefile:84：all] 错误 2
