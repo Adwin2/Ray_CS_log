@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 var res [][]int
 
@@ -10,7 +13,8 @@ func GroupSum(cur, sum, start, k int, path []int) {
 	}
 	if len(path) == k {
 		if cur == sum {
-			res = append(res, append([]int{}, path...))
+			//res = append(res, append([]int{}, path...))
+			res = append(res, slices.Clone(path))
 			return
 		}
 	}
