@@ -1,6 +1,11 @@
 package main
 
-import "../../stack"
+import (
+	"errors"
+	"fmt"
+
+	"../../stack"
+)
 
 type DblStack struct {
 	top, bot    [2]int
@@ -41,10 +46,55 @@ func (d *DblStack) isFull() bool {
 }
 
 // 进栈
-func (d *DblStack) Push(elem int) {
+func (d *DblStack) Push(elem int, left bool) error {
+	if d.isFull() {
+		return errors.New("DblStack is Full")
+	}
 
+	if left {
+		d.left_stack.Push(elem)
+		d.left_stack.Top++
+		d.top[0]++
+	} else {
+		d.right_stack.Push(elem)
+		d.right_stack.Top++
+		d.top[1]--
+	}
+
+	return nil
 }
 
 // 出栈
+func (d *DblStack) Pop(left bool) (int, error) {
+	if d.isEmpty() {
+		return 0, errors.New("DblStack is Empty")
+	}
+
+	if left {
+		tmp, _ := d.left_stack.Peek()
+		d.left_stack.Pop()
+		d.left_stack.Top--
+		d.Top[0]--
+	} else {
+		tmp, _ := d.right_stack.Peek()
+		d.right_stack.Pop()
+		d.right_stack.Top--
+		d.Top[1]++
+	}
+
+	return tmp, nil
+}
 
 // 测试
+func main() {
+	dblstack := NewDblStack(2)
+	// 左插
+	dblstack.Push(2, 1)
+	// 右插
+	dblstack.Push(3, 0)
+
+	// 再次插入 应该报错	
+	dblstack.Push(4, 0)
+
+	fmt.Scanln()
+}
