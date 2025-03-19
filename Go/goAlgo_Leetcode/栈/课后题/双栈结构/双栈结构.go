@@ -69,17 +69,17 @@ func (d *DblStack) Pop(left bool) (int, error) {
 	if d.isEmpty() {
 		return 0, errors.New("DblStack is Empty")
 	}
-
+	var tmp int
 	if left {
-		tmp, _ := d.left_stack.Peek()
+		tmp, _ = d.left_stack.Peek()
 		d.left_stack.Pop()
 		d.left_stack.Top--
-		d.Top[0]--
+		d.top[0]--
 	} else {
-		tmp, _ := d.right_stack.Peek()
+		tmp, _ = d.right_stack.Peek()
 		d.right_stack.Pop()
 		d.right_stack.Top--
-		d.Top[1]++
+		d.top[1]++
 	}
 
 	return tmp, nil
@@ -89,12 +89,12 @@ func (d *DblStack) Pop(left bool) (int, error) {
 func main() {
 	dblstack := NewDblStack(2)
 	// 左插
-	dblstack.Push(2, 1)
+	dblstack.Push(2, true)
 	// 右插
-	dblstack.Push(3, 0)
+	dblstack.Push(3, false)
 
-	// 再次插入 应该报错	
-	dblstack.Push(4, 0)
+	// 再次插入 应该报错
+	dblstack.Push(4, false)
 
 	fmt.Scanln()
 }
