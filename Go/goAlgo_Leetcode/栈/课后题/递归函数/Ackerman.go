@@ -7,12 +7,9 @@ func Ack(m, n int) int {
 		return n + 1
 	} else if m != 0 && n == 0 {
 		return Ack(m-1, 1)
-	} else if m != 0 && n != 0 {
+	} else {
 		return Ack(m-1, Ack(m, n-1))
 	}
-
-	// for nothing
-	return 0
 }
 
 func main() {

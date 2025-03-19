@@ -1,14 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 var res [][]int
 
 func backTrack(n, k, StartIndex int, path []int) {
 	if len(path) == k {
-		NewPath := make([]int, len(path))
-		copy(NewPath, path)
-		res = append(res, NewPath)
+		// NewPath := make([]int, len(path))
+		// copy(NewPath, path)
+		// res = append(res, NewPath)
+		res = append(res, slices.Clone(path))
 		return
 	}
 	//fmt.Println(n, k, len(path))

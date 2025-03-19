@@ -1,3 +1,4 @@
+// candidates、path 均无重复
 package main
 
 import (
@@ -8,9 +9,9 @@ import (
 var res [][]int
 
 func GroupSum(cur, sum, start, k int, path []int) {
-	if cur > sum {
-		return
-	}
+	//if cur > sum {
+	//	return
+	//}
 	if len(path) == k {
 		if cur == sum {
 			//res = append(res, append([]int{}, path...))
@@ -18,8 +19,8 @@ func GroupSum(cur, sum, start, k int, path []int) {
 			return
 		}
 	}
-
-	for i := start; i <= 9-(k-len(path))+1; i++ {
+	// cur > sum 的两种剪枝优化方法
+	for i := start; i <= 9-(k-len(path))+1 && cur+i <= sum; i++ {
 		cur += i
 		path = append(path, i)
 		GroupSum(cur, sum, i+1, k, path)
