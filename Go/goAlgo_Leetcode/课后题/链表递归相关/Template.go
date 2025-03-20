@@ -9,7 +9,7 @@ type Node struct {
 
 func InitNode(v int) *Node {
 	return &Node{
-		Node: nil,
+		Next: nil,
 		val:  v,
 	}
 }

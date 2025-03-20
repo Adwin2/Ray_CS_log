@@ -5,6 +5,13 @@ import (
 	"fmt"
 )
 
+func NewStack_m[T any](m int) *Stack[T] {
+	return &Stack[T]{
+		Items: make([]T, 0),
+		Top:   -1,
+	}
+}
+
 type DblStack struct {
 	top, bot    [2]int
 	left_stack  *Stack[int]
@@ -19,8 +26,8 @@ func NewDblStack(m int) *DblStack {
 	return &DblStack{
 		top:         [2]int{-1, m},
 		bot:         [2]int{0, m - 1},
-		left_stack:  NewStack[int](m),
-		right_stack: NewStack[int](m),
+		left_stack:  NewStack_m[int](m),
+		right_stack: NewStack_m[int](m),
 		m:           m,
 	}
 }
