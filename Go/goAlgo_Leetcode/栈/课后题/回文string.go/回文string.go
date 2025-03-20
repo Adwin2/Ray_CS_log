@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../../栈/stack""
+	"../../stack"
 )
 
 func Verify(a string, s stack.Stack) bool {

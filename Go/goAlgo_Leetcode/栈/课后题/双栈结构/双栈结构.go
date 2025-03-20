@@ -3,24 +3,14 @@ package main
 import (
 	"errors"
 	"fmt"
-
-	"../../stack"
 )
 
 type DblStack struct {
 	top, bot    [2]int
-	left_stack  *stack.Stack
-	right_stack *stack.Stack
+	left_stack  *Stack[int]
+	right_stack *Stack[int]
 	m           int
 }
-
-//重载栈的初始化
-// func NewStack(size, top int) *stack.Stack{
-// 	return &stack.Stack{
-// 		Elems: make([]int, size),
-// 		Top: top,
-// 	}
-// }
 
 // 双栈初始化
 // 直接使用  top[0] 作为left_stack.Top
@@ -29,8 +19,8 @@ func NewDblStack(m int) *DblStack {
 	return &DblStack{
 		top:         [2]int{-1, m},
 		bot:         [2]int{0, m - 1},
-		left_stack:  stack.NewStack(m),
-		right_stack: stack.NewStack(m),
+		left_stack:  NewStack[int](m),
+		right_stack: NewStack[int](m),
 		m:           m,
 	}
 }
@@ -87,14 +77,23 @@ func (d *DblStack) Pop(left bool) (int, error) {
 
 // 测试
 func main() {
-	dblstack := NewDblStack(2)
+	d := NewDblStack(2)
 	// 左插
-	dblstack.Push(2, true)
+	fmt.Println((d.top[0]-d.bot[0]+1)+(d.bot[1]-d.top[1]+1), d.m)
+	fmt.Println(d.Push(2, true))
 	// 右插
-	dblstack.Push(3, false)
+	fmt.Println((d.top[0]-d.bot[0]+1)+(d.bot[1]-d.top[1]+1), d.m)
+	fmt.Println(d.Push(3, false))
 
-	// 再次插入 应该报错
-	dblstack.Push(4, false)
+	// 再次插入 已满 报错
+	fmt.Println((d.top[0]-d.bot[0]+1)+(d.bot[1]-d.top[1]+1), d.m)
+	fmt.Println(d.Push(4, false))
 
+	fmt.Println((d.top[0]-d.bot[0]+1)+(d.bot[1]-d.top[1]+1), d.m)
+	fmt.Println(d.Pop(true))
+	fmt.Println(d.Pop(false))
+
+	fmt.Println((d.top[0]-d.bot[0]+1)+(d.bot[1]-d.top[1]+1), d.m)
+	fmt.Println(d.Push(4, false))
 	fmt.Scanln()
 }
