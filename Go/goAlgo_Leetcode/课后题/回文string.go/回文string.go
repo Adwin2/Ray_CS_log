@@ -1,8 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-func Verify(a string, s Stack[string]) bool {
+	"github.com/Adwin2/personal-go-modules/stack"
+)
+
+func Verify(a string, s stack.Stack[string]) bool {
 	// index
 	var i int
 	// 现代化写法中类似的： i = range len(a)/2
@@ -41,7 +45,7 @@ func Verify(a string, s Stack[string]) bool {
 }
 
 func main() {
-	s := NewStack[string]()
+	s := stack.NewStack[string]()
 	fmt.Println(Verify("ababa", *s))
 	fmt.Println(Verify("abab", *s))
 	fmt.Println(Verify("abba", *s))

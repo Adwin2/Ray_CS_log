@@ -3,19 +3,14 @@ package main
 import (
 	"errors"
 	"fmt"
-)
 
-func NewStack_m[T any](m int) *Stack[T] {
-	return &Stack[T]{
-		Items: make([]T, 0),
-		Top:   -1,
-	}
-}
+	"github.com/Adwin2/personal-go-modules/stack"
+)
 
 type DblStack struct {
 	top, bot    [2]int
-	left_stack  *Stack[int]
-	right_stack *Stack[int]
+	left_stack  *stack.Stack[int]
+	right_stack *stack.Stack[int]
 	m           int
 }
 
@@ -26,8 +21,8 @@ func NewDblStack(m int) *DblStack {
 	return &DblStack{
 		top:         [2]int{-1, m},
 		bot:         [2]int{0, m - 1},
-		left_stack:  NewStack_m[int](m),
-		right_stack: NewStack_m[int](m),
+		left_stack:  stack.NewStack[int](),
+		right_stack: stack.NewStack[int](),
 		m:           m,
 	}
 }

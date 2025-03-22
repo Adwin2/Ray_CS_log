@@ -1,29 +1,40 @@
 // 递归转迭代
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/Adwin2/personal-go-modules/stack"
+)
+
+type Frame struct {
+	Stage int
+	M     int
+	N     int
+}
 
 func ack_ii(m, n int) int {
-	// 初始化二维数组 ，var vec [m][n]int 错误 编译时需要确定大小 不可使用变量初始化
-	vec := make([][]int, m+2)
-	for i := range m + 2 {
-		vec[i] = make([]int, n+2)
-	}
+	stk := stack.NewStack[Frame]()
+	stk.Push(Frame{Stage: 0, M: m, N: n})
+	cur := 0
 
-	// m == 0
-	for i := 0; i <= n; i++ {
-		vec[0][i] = i + 1
-	}
+	for !stk.IsEmpty() {
+		top, _ := stk.Pop()
 
-	for i := 1; i <= m; i++ {
-		// m != 0 && n == 0
-		vec[i][0] = vec[i-1][1]
-		// m != 0 && n != 0
-		for o := 1; o <= n; o++ {
-			vec[i][o] = vec[i-1][vec[i][o-1]]
+		if top.Stage == 0 {
+			if top.M == 0 {
+				cur = top.N + 1
+			} else if top.N == 0 {
+				stk.Push(Frame{Stage: 0, M: top.M - 1, N: 1})
+			} else {
+				stk.Push(Frame{Stage: 1, M: top.M})
+				stk.Push(Frame{Stage: 0, M: top.M, N: top.N - 1})
+			}
+		} else if top.Stage == 1 {
+			stk.Push(Frame{Stage: 0, M: top.M - 1, N: cur})
 		}
 	}
-	return vec[m][n]
+	return cur
 }
 
 func main() {
