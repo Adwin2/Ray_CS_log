@@ -1,3 +1,4 @@
+// Wait to be deleted
 package main
 
 import "fmt"
