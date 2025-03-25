@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# 创建LeetCode题目目录结构的脚本
+# 创建LeetCode题目目录结构的脚本 
+# ln -s ./create_lc /usr/bin/newlc
 
 # 提示用户输入题号
 read -p "请输入题号: " number
