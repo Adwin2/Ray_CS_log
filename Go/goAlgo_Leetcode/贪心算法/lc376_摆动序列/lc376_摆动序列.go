@@ -11,8 +11,9 @@ import "fmt"
 解题思路:
 在这里添加解题思路
 */
+
 // 返回折线的折点数
-func solution(nums []int) int {
+func wiggleMaxLength(nums []int) int {
 	if len(nums) <= 1 {
 		return len(nums)
 	}
@@ -35,6 +36,6 @@ func main() {
 	// 测试代码
 	nums := []int{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}
 	nums2 := []int{1, 7, 4, 9, 2, 5}
-	fmt.Println(solution(nums))
-	fmt.Println(solution(nums2))
+	fmt.Println(wiggleMaxLength(nums))
+	fmt.Println(wiggleMaxLength(nums2))
 }
