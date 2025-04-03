@@ -16,8 +16,11 @@ func minStep(nums []int) int {
 	step := 0
 	curIdx := 0
 	for i := range len(nums) - 1 {
-		step += 1
-		curIdx = max(i+nums[i], curIdx)
+		if i+nums[i] > curIdx {
+			step++
+			curIdx = i + nums[i]
+		}
+
 		if curIdx >= len(nums)-1 {
 			return step
 		}
