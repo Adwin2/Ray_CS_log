@@ -2,12 +2,11 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 )
 
-func Join() string {
-	fmt.Scanln()
+func Join() {
+	// fmt.Scanln()
 }
 func test() {
 
