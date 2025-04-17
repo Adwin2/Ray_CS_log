@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"os"
+	"sync"
+	"time"
 )
 
 func main() {
@@ -20,6 +22,26 @@ func main() {
 	// m.Store(3,5)
 	// fmt.Println()
 	
-	os.Create("/home/raymond"+"/"+"a.rdb")
+	// os.Create("/home/raymond"+"/"+"a.rdb")
+	// cnt := 10
+	// fmt.Println(cnt, byte(cnt))
+	var key any = "key"
+	var t int64 = 200
+	fmt.Println(t, time.Now().UnixMilli(),t+time.Now().UnixMilli(), uint64(t)+ uint64(time.Now().UnixMilli()))
+	str, _ := key.(string)
+	fmt.Println(byte(len(key.(string)))==byte(0x03), []byte(str), bytes.Join([][]byte {
+		[]byte{byte(len(key.(string)))},
+		[]byte(key.(string)),
+	}, nil))
+	cnt := 0
+	var m sync.Map
+	m.Store(1,2)
+	m.Store(2,2)
+	m.Range(func (k, v any) bool {
+		cnt ++
+		return true
+	})
+	fmt.Println(cnt)
+	//panic("cnt < 5")
 
 }
