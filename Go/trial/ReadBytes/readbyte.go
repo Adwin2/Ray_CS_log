@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func CreateAndWrite(filename string) {
@@ -101,6 +102,7 @@ func main() {
 	CreateAndWrite(filename)
 	Read(filename)
 
+	fmt.Println(filepath.Dir(filename))
 	// for range 10 {
 	// 	fmt.Println(1)
 	// }
