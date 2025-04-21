@@ -8,18 +8,21 @@ import (
 type config struct {
 	dir        string
 	dbfileName string
+	test string
 }
 
 func main() {
 	conf := &config{
 		dir:        "test",
 		dbfileName: "dbtest",
+		test : "test", 
 	}
 	val := reflect.ValueOf(conf).Elem().FieldByName("dir") //结构体实例的反射值
 	getVal := val.String()
 	fmt.Println(len([]byte(getVal)), getVal)
 
 	fmt.Println(val)
+	fmt.Println(conf.test == "test")
 	// fmt.Println(getField(val, "dir"))
 	// fmt.Println(getField(val, "dbfilename"))
 	// fmt.Println(val.FieldByName("dir"))
