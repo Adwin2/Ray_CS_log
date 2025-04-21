@@ -98,5 +98,9 @@ func (sl *SkipList) Delete(val int) bool {
 
 
 func main() {
-
+	sl := NewSkipList()
+	sl.Insert(1)
+	sl.Insert(2)
+	sl.Insert(3)
+	sl.Insert(4)
 }
