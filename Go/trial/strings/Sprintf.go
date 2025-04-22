@@ -42,6 +42,12 @@ func main() {
 		return true
 	})
 	fmt.Println(cnt)
+	sss := "A"
+	fmt.Println(HandleString("adddndnsjs" + sss))
 	//panic("cnt < 5")
 
+}
+
+func HandleString(s string) []byte {
+	return []byte(s)
 }
