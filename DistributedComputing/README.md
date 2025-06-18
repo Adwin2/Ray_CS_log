@@ -1,6 +1,7 @@
 # MIT6.5840 lab3 raft算法实现
 
 > implementing [MIT6.5840 lab3](https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html)
+> 友链：[raft算法动画演示](http://www.kailing.pub/raft/index.html)
 
 🎯 MIT 6.5840 Raft项目实现进展报告
 
