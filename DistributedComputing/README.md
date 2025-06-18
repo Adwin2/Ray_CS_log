@@ -1,6 +1,6 @@
 # MIT6.5840 lab3 raft算法实现
 
-> forked from `https://github.com/anishathalye/porcupine`
+> implementing [MIT6.5840 lab3](https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html)
 
 🎯 MIT 6.5840 Raft项目实现进展报告
 
