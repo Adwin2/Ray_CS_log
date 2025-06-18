@@ -16,7 +16,8 @@
 
 ```txt
 .
-├── C++/           # C++ 学习笔记与代码
-├── Go/            # Go 语言学习与项目实践
-└── Linux/         # Linux 系统学习笔记
+├── C++/                   # C++ 学习笔记与代码
+├── Go/                    # Go 语言学习与项目实践
+├── DistributedComputing/  # 分布式计算代码实践
+└── Linux/                 # Linux 系统学习笔记
 ```
