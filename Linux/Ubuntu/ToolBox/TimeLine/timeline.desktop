@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=TimeLine 计时器
+Name[en]=TimeLine Timer
+Comment=个人学习时间管理桌面计时器
+Comment[en]=Personal study time management desktop timer
+GenericName=Timer
+GenericName[en]=Timer
+Exec=/usr/bin/python3 %f/timeline.py
+Icon=appointment-soon
+Terminal=false
+StartupNotify=true
+Categories=Utility;Office;GTK;
+Keywords=timer;study;productivity;time;management;
+MimeType=
+StartupWMClass=timeline
