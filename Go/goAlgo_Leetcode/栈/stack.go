@@ -14,6 +14,9 @@ func NewStack[T any]() *Stack[T] {
 }
 
 // 实现Push方法来添加元素
+/*
+* @param item 添加元素
+*/
 func (s *Stack[T]) Push(item T) {
 	s.Items = append(s.Items, item)
 	s.Top++
