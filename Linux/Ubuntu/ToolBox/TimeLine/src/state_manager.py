@@ -173,9 +173,9 @@ class StateManager:
         history = self._load_history()
         history.append(history_entry)
         
-        # 只保留最近100条记录
-        if len(history) > 100:
-            history = history[-100:]
+        # 只保留最近20条记录，减少内存使用
+        if len(history) > 20:
+            history = history[-20:]
         
         # 保存历史
         try:

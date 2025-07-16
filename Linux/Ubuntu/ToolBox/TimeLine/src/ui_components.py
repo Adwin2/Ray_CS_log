@@ -45,12 +45,13 @@ class StyledProgressBar(Gtk.ProgressBar):
 
 class StateButton(Gtk.Button):
     """状态切换按钮"""
-    
+
     def __init__(self, study_color: str = "#4CAF50", rest_color: str = "#FF9800"):
         super().__init__()
         self.study_color = study_color
         self.rest_color = rest_color
         self.current_state = "study"
+        self.css_provider = None  # 缓存CSS提供者
         self.setup_style()
         self.update_appearance()
     
@@ -81,7 +82,12 @@ class StateButton(Gtk.Button):
     
     def _apply_color_style(self, color: str):
         """应用颜色样式"""
-        css_provider = Gtk.CssProvider()
+        # 重用CSS提供者，减少内存分配
+        if self.css_provider is None:
+            self.css_provider = Gtk.CssProvider()
+            context = self.get_style_context()
+            context.add_provider(self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
         css_data = f"""
         button {{
             background-color: {color};
@@ -99,10 +105,7 @@ class StateButton(Gtk.Button):
             background-color: {self._darken_color(color, 0.3)};
         }}
         """
-        css_provider.load_from_data(css_data.encode())
-
-        context = self.get_style_context()
-        context.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        self.css_provider.load_from_data(css_data.encode())
     
     def _darken_color(self, hex_color: str, factor: float = 0.2) -> str:
         """使颜色变暗"""

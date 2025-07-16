@@ -47,21 +47,31 @@ class TimeLineApp:
         
     def load_config(self):
         """加载配置文件"""
+        # 使用更轻量的默认配置，减少内存占用
+        self.config = {
+            "window": {"width": 260, "height": 90, "opacity": 0.85, "always_on_top": True},
+            "time_periods": [
+                {"name": "上午学习", "start": "08:30", "end": "11:30"},
+                {"name": "下午学习", "start": "14:30", "end": "17:30"},
+                {"name": "晚上学习", "start": "19:30", "end": "22:30"}
+            ],
+            "colors": {"study_mode": "#4CAF50", "rest_mode": "#FF9800", "progress_bar": "#2196F3"}
+        }
+
+        # 尝试加载外部配置文件（可选）
         config_path = Path(__file__).parent.parent / "config" / "settings.json"
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
-                self.config = json.load(f)
-        except FileNotFoundError:
-            # 默认配置
-            self.config = {
-                "window": {"width": 300, "height": 120, "opacity": 0.9, "always_on_top": True},
-                "time_periods": [
-                    {"name": "上午学习", "start": "08:30", "end": "11:30"},
-                    {"name": "下午学习", "start": "14:30", "end": "17:30"},
-                    {"name": "晚上学习", "start": "19:30", "end": "22:30"}
-                ],
-                "colors": {"study_mode": "#4CAF50", "rest_mode": "#FF9800", "progress_bar": "#2196F3"}
-            }
+                external_config = json.load(f)
+                # 只更新存在的配置项，避免创建额外对象
+                for key, value in external_config.items():
+                    if key in self.config:
+                        if isinstance(value, dict) and isinstance(self.config[key], dict):
+                            self.config[key].update(value)
+                        else:
+                            self.config[key] = value
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass  # 使用默认配置
     
     def setup_window(self):
         """设置主窗口"""
@@ -113,29 +123,30 @@ class TimeLineApp:
     
     def setup_timer(self):
         """设置定时器"""
-        # 每秒更新一次
-        GLib.timeout_add_seconds(1, self.update_display)
+        # 每5秒更新一次，减少CPU和内存使用
+        GLib.timeout_add_seconds(5, self.update_display)
         # 立即更新一次
         self.update_display()
     
     def update_display(self):
         """更新显示内容"""
         now = datetime.now()
+        current_time = now.time()
 
-        # 更新时间显示
-        time_str = now.strftime("%H:%M:%S")
+        # 更新时间显示（只显示小时和分钟，减少更新频率需求）
+        time_str = now.strftime("%H:%M")
         self.time_display.set_time(time_str)
 
         # 使用时间管理器获取当前时间段
-        current_period = self.time_manager.get_current_period(now.time())
+        current_period = self.time_manager.get_current_period(current_time)
 
         if current_period:
             # 在学习时间段内
             period_name = current_period["name"]
-            progress = self.time_manager.calculate_progress(now.time(), current_period)
+            progress = self.time_manager.calculate_progress(current_time, current_period)
 
             # 获取剩余时间
-            remaining_hours, remaining_minutes = self.time_manager.get_remaining_time(now.time(), current_period)
+            remaining_hours, remaining_minutes = self.time_manager.get_remaining_time(current_time, current_period)
 
             self.period_label.set_info_text(f"{period_name}")
             self.progress_bar.set_fraction(progress)
@@ -147,7 +158,7 @@ class TimeLineApp:
             self.progress_bar.set_text(progress_text)
         else:
             # 不在学习时间段内
-            next_period = self.time_manager.get_next_period(now.time())
+            next_period = self.time_manager.get_next_period(current_time)
             if next_period:
                 next_start = next_period["start"].strftime("%H:%M")
                 self.period_label.set_info_text(f"休息中 | 下一时段 {next_start}")

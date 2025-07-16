@@ -127,8 +127,8 @@ class WindowManager:
     
     def on_configure(self, widget, event):
         """窗口配置变化事件"""
-        # 延迟保存位置，避免频繁写入
-        GLib.timeout_add(500, self.save_window_position)
+        # 延迟保存位置，避免频繁写入，增加延迟时间
+        GLib.timeout_add(2000, self.save_window_position)
         return False
     
     def on_window_state(self, widget, event):
